@@ -133,13 +133,13 @@ namespace S1_Re
         {
             if (task_dgv.SelectedRows[0].Cells["Stauts"].Value.ToString() == "Finished")
             {
-               
+                int taskId = Convert.ToInt32(task_dgv.SelectedRows[0].Cells["TaskId"].Value);
+                startFrom(new InventoryReportForm(taskId));
             }
             else
             {
                 showDia("清选择状态为Finished的项目！");
             }
-
         }
 
         
