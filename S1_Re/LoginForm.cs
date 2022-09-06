@@ -44,7 +44,7 @@ namespace S1_Re
                 var user = GetS1Entities().Staff.Where(a => a.Telephone == tele_v.V && a.Password == pwd_v.V).FirstOrDefault();
                 if (user != null)
                 {
-                    startFrom(new ViewCheckTaskForm());
+                    checkRole(user);
                 }
                 else
                 {
@@ -64,17 +64,25 @@ namespace S1_Re
 
 
 
-        public void checkRole(int roleId)
+        public void checkRole(Staff staff)
         {
-            switch (roleId)
+            int i = 0;
+            int a = 2;
+            switch (staff.RoleId)
             {
                 case 1:
                 case 4:
-
+                    startFrom(new ViewCheckTaskForm());
                     break;
                 case 2:
                 case 3:
+                    
                     break;
+                case 6:
+                    startFrom(new ViewCheckingTask(staff.Id));
+                    break;
+
+
             }
         }
 
