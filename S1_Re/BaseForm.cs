@@ -5,7 +5,7 @@ namespace S1_Re
 {
     public partial class BaseForm : Form
     {
-        S1Entities s1Entities = new S1Entities();
+        public S1Entities s1Entities = new S1Entities();
 
         public BaseForm()
         {

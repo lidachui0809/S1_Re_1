@@ -36,7 +36,8 @@ namespace S1_Re
          
         private void loadTask()
         {
-            var data = GetS1Entities().Warehouse.Where(a => a.Manager == userId);
+            var data = GetS1Entities().Warehouse.AsQueryable();
+                //.Where(a => a.Manager == userId);
             var data2 = GetS1Entities().InventoryCheckingTask.AsQueryable();
             if (war_name.SelectedIndex != -1 && war_name.SelectedIndex != 0)
             {
@@ -45,7 +46,7 @@ namespace S1_Re
             }
             if (task_status.SelectedIndex != -1 && task_status.SelectedIndex != 0)
             {
-                int id = task_status.SelectedIndex + 1;
+                int id = task_status.SelectedIndex ;
                 data2=data2.Where(a => a.StatusId == id);
             }
             if (task_type.SelectedIndex != -1 && task_type.SelectedIndex != 0)
@@ -94,8 +95,8 @@ namespace S1_Re
         {
             if( task_dgv.SelectedRows[0].Cells["Stauts"].Value.ToString()=="NoStart")
             {
-                int taskId =Convert.ToInt32( task_dgv.SelectedRows[7].Cells["TaskId"].ToString());
-                GetS1Entities().InventoryCheckingTask.Where(a => a.Id == taskId).FirstOrDefault().StatusId = 1;
+                int taskId =Convert.ToInt32( task_dgv.SelectedRows[0].Cells["TaskId"].Value.ToString());
+                GetS1Entities().InventoryCheckingTask.Where(a => a.Id == taskId).FirstOrDefault().StatusId = 2;
                 if (GetS1Entities().SaveChanges() > 0)
                 {
                     showDia("修改成功！");
@@ -115,40 +116,28 @@ namespace S1_Re
 
         private void imp_re_btn_Click(object sender, EventArgs e)
         {
-            if (task_dgv.SelectedRows[0].Cells["Stauts"].Value.ToString() == "Finished")
-            {
-                //int taskId = Convert.ToInt32(task_dgv.SelectedRows[0].Cells["TaskId"].ToString());
-                //GetS1Entities().InventoryCheckingTask.Where(a => a.Id == taskId).FirstOrDefault().StatusId = 2;
-                //if (GetS1Entities().SaveChanges() > 0)
-                //{
-                //    showDia("修改成功！");
-                //    loadTask();
-                //}
 
-            }
-            else
-            {
-                showDia("清选择状态为Finished的项目！");
-            }
-        }
-
-        private void view_in_Btn_Click(object sender, EventArgs e)
-        {
             if (task_dgv.SelectedRows[0].Cells["Stauts"].Value.ToString() == "Ongoing")
             {
-                //int taskId = Convert.ToInt32(task_dgv.SelectedRows[7].Cells["TaskId"].ToString());
-                //GetS1Entities().InventoryCheckingTask.Where(a => a.Id == taskId).FirstOrDefault().StatusId = 3;
-                //if (GetS1Entities().SaveChanges() > 0)
-                //{
-                //    showDia("修改成功！");
-                //    loadTask();
-
-                //}
-
+                int taskId = Convert.ToInt32(task_dgv.SelectedRows[0].Cells["TaskId"].Value);
+                startFrom(new InputResultForm(taskId));
             }
             else
             {
                 showDia("清选择状态为Ongoing的项目！");
+            }
+          
+        }
+
+        private void view_in_Btn_Click(object sender, EventArgs e)
+        {
+            if (task_dgv.SelectedRows[0].Cells["Stauts"].Value.ToString() == "Finished")
+            {
+               
+            }
+            else
+            {
+                showDia("清选择状态为Finished的项目！");
             }
 
         }
